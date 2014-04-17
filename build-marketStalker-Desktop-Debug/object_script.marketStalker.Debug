@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\marketStalker.o
+./debug\getAPage.o
+./debug\settingWindow.o
+./debug\treeWidgetItem.o
+./debug\smptClient.o
+./debug\mainWindow.o
+./debug\logsWindow.o
+./debug\profileWindow.o
+./debug\moc_marketStalker.o
+./debug\moc_getAPage.o
+./debug\moc_settingWindow.o
+./debug\moc_smtpClient.o
+./debug\moc_logsWindow.o
+./debug\moc_profileWindow.o
+);

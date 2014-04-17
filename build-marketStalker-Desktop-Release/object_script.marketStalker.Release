@@ -1,0 +1,17 @@
+INPUT(
+./release\main.o
+./release\marketStalker.o
+./release\getAPage.o
+./release\settingWindow.o
+./release\treeWidgetItem.o
+./release\smptClient.o
+./release\mainWindow.o
+./release\logsWindow.o
+./release\profileWindow.o
+./release\moc_marketStalker.o
+./release\moc_getAPage.o
+./release\moc_settingWindow.o
+./release\moc_smtpClient.o
+./release\moc_logsWindow.o
+./release\moc_profileWindow.o
+);
