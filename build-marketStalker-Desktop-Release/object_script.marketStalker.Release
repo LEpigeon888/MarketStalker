@@ -9,10 +9,12 @@ INPUT(
 ./release\logsWindow.o
 ./release\profileWindow.o
 ./release\options.o
+./release\blacklistWindow.o
 ./release\moc_marketStalker.o
 ./release\moc_getAPage.o
 ./release\moc_settingWindow.o
 ./release\moc_smtpClient.o
 ./release\moc_logsWindow.o
 ./release\moc_profileWindow.o
+./release\moc_blacklistWindow.o
 );

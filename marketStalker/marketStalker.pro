@@ -8,7 +8,8 @@ SOURCES += \
     mainWindow.cpp \
     logsWindow.cpp \
     profileWindow.cpp \
-    options.cpp
+    options.cpp \
+    blacklistWindow.cpp
 
 HEADERS += \
     marketStalker.hpp \
@@ -19,7 +20,8 @@ HEADERS += \
     mainWindow.hpp \
     logsWindow.hpp \
     profileWindow.hpp \
-    options.hpp
+    options.hpp \
+    blacklistWindow.hpp
 
 QT += \
     network

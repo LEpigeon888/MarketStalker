@@ -9,10 +9,12 @@ INPUT(
 ./debug\logsWindow.o
 ./debug\profileWindow.o
 ./debug\options.o
+./debug\blacklistWindow.o
 ./debug\moc_marketStalker.o
 ./debug\moc_getAPage.o
 ./debug\moc_settingWindow.o
 ./debug\moc_smtpClient.o
 ./debug\moc_logsWindow.o
 ./debug\moc_profileWindow.o
+./debug\moc_blacklistWindow.o
 );

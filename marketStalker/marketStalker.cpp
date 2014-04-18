@@ -1,6 +1,7 @@
 #include "marketStalker.hpp"
 #include "treeWidgetItem.hpp"
 #include "profileWindow.hpp"
+#include "blacklistWindow.hpp"
 
 marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
 {
@@ -24,7 +25,7 @@ marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
     activeOption.timeRefresh = 10;
     activeOption.minValue = 0;
     activeOption.maxValue = 10;
-    activeOption.windowName = "Market Stalker v1.13s";
+    activeOption.windowName = "Market Stalker v1.13";
     activeOption.itemPerPage = 20;
     activeOption.valueOfEuro = 0.72374611;
     activeOption.isInEuro = false;
@@ -242,6 +243,7 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
                 if(thisItem.link == tmpLink.replace("\\/", "/"))
                 {
                     existBefore = true;
+                    thisItem.value = listOfValue.at(i);
                     break;
                 }
             }
@@ -469,7 +471,8 @@ void marketStalkerClass::showProfile()
 
 void marketStalkerClass::showBlacklist()
 {
-
+    blacklistWindowClass* myBlacklistWindow = new blacklistWindowClass(this, &activeOption);
+    myBlacklistWindow->exec();
 }
 
 void marketStalkerClass::showLogs()
