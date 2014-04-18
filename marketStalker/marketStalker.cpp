@@ -26,7 +26,7 @@ marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
     maxValue = 10;
     activeOption.windowName = "Market Stalker v1.12";
     activeOption.itemPerPage = 20;
-    activeOption.valueOfEuro = 0.720097933;
+    activeOption.valueOfEuro = 0.723693733;
     activeOption.isInEuro = false;
     boxIsInDollar = true;
     updateTime = false;
@@ -136,6 +136,7 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
 
     if(listOfLink.size() != listOfValue.size() || listOfLink.size() != listOfName.size() || listOfLink.size() != listOfGameName.size())
     {
+        //logsInfo.logs.append("Erreur lors du parsemant des pages.\n");
         return;
     }
 
