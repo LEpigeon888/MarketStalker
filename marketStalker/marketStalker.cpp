@@ -25,9 +25,9 @@ marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
     activeOption.timeRefresh = 10;
     activeOption.minValue = 0;
     activeOption.maxValue = 10;
-    activeOption.windowName = "Market Stalker v1.13";
+    activeOption.windowName = "Market Stalker v1.13.1";
     activeOption.itemPerPage = 20;
-    activeOption.valueOfEuro = 0.72374611;
+    activeOption.valueOfEuro = 0.723798494;
     activeOption.isInEuro = false;
     boxIsInDollar = true;
     updateTime = false;
@@ -392,15 +392,15 @@ void marketStalkerClass::updateValue()
     labNbItemTotal.setText("Total : 0");
     timerForGetPage.setInterval(activeOption.timeRefresh * 1000);
     timerForGetPage.start();
-    stringSearch = lineStringSearch.text();
+    activeOption.stringSearch = lineStringSearch.text();
     startGetPage();
 }
 
 void marketStalkerClass::startGetPage()
 {
-    if(firstPageGet.getIsOnGet() == false && stringSearch.isEmpty() == false && updateTime == false)
+    if(firstPageGet.getIsOnGet() == false && activeOption.stringSearch.isEmpty() == false && updateTime == false)
     {
-        QString url = QString("http://steamcommunity.com/market/search?") + aditionalOptions + QString("q=") + stringSearch;
+        QString url = QString("http://steamcommunity.com/market/search?") + aditionalOptions + QString("q=") + activeOption.stringSearch;
         labStatuOfUpdate.setText("Récupération des informations...");
         updateTime = true;
         inGetPage = true;
@@ -428,7 +428,7 @@ void marketStalkerClass::beginAllGet()
 
     while(currentNumber < numberOfItem)
     {
-        QString url = QString("http://steamcommunity.com/market/search/render/?") + aditionalOptions + QString("query=") + stringSearch + QString("&start=") + QString::number(currentNumber) + QString("&count=") + QString::number(activeOption.itemPerPage) + QString("&search_descriptions=0&sort_column=default&sort_dir=desc");
+        QString url = QString("http://steamcommunity.com/market/search/render/?") + aditionalOptions + QString("query=") + activeOption.stringSearch + QString("&start=") + QString::number(currentNumber) + QString("&count=") + QString::number(activeOption.itemPerPage) + QString("&search_descriptions=0&sort_column=default&sort_dir=desc");
         QSharedPointer<getAPageClass> newPage(new getAPageClass);
         newPage->setUrlToAccess(url);
         currentNumber += activeOption.itemPerPage;
@@ -608,6 +608,7 @@ void marketStalkerClass::updateAllOption()
     boxMinValue.setValue(activeOption.minValue);
     boxMaxValue.setValue(activeOption.maxValue);
     boxTimeRefresh.setValue(activeOption.timeRefresh);
+    lineStringSearch.setText(activeOption.stringSearch);
     updateOption(true, true, true, true);
 }
 

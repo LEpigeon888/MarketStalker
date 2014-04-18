@@ -34,6 +34,7 @@ struct options
     double minValue;
     double maxValue;
     int timeRefresh;
+    QString stringSearch;
     QList<item> listOfItemBlacklisted;
 };
 

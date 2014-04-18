@@ -50,7 +50,6 @@ private:
     QTreeWidget listItemFound;
     QTreeWidget listItemList;
     bool boxIsInDollar;
-    QString stringSearch;
     QTimer timerForGetPage;
     getAPageClass firstPageGet;
     QList< QSharedPointer<getAPageClass> > listOfPageGet;

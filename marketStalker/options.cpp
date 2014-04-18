@@ -31,7 +31,7 @@ QDataStream& operator>>(QDataStream& thisStream, item& thisObject)
 QDataStream& operator<<(QDataStream& thisStream, const options& thisObject)
 {
     thisStream << thisObject.windowName << thisObject.itemPerPage << thisObject.valueOfEuro << thisObject.isInEuro << thisObject.isInEnglish << thisObject.alwaysBeep
-               << thisObject.emailInfo << thisObject.minValue << thisObject.maxValue << thisObject.timeRefresh << thisObject.listOfItemBlacklisted;
+               << thisObject.emailInfo << thisObject.minValue << thisObject.maxValue << thisObject.timeRefresh << thisObject.stringSearch << thisObject.listOfItemBlacklisted;
 
     return thisStream;
 }
@@ -39,7 +39,7 @@ QDataStream& operator<<(QDataStream& thisStream, const options& thisObject)
 QDataStream& operator>>(QDataStream& thisStream, options& thisObject)
 {
     thisStream >> thisObject.windowName >> thisObject.itemPerPage >> thisObject.valueOfEuro >> thisObject.isInEuro >> thisObject.isInEnglish >> thisObject.alwaysBeep
-               >> thisObject.emailInfo >> thisObject.minValue >> thisObject.maxValue >> thisObject.timeRefresh >> thisObject.listOfItemBlacklisted;
+               >> thisObject.emailInfo >> thisObject.minValue >> thisObject.maxValue >> thisObject.timeRefresh >> thisObject.stringSearch >> thisObject.listOfItemBlacklisted;
 
     return thisStream;
 }
