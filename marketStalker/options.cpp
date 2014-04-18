@@ -14,6 +14,20 @@ QDataStream& operator>>(QDataStream& thisStream, emailInformation& thisObject)
     return thisStream;
 }
 
+QDataStream& operator<<(QDataStream& thisStream, const item& thisObject)
+{
+    thisStream << thisObject.gameName << thisObject.name << thisObject.value << thisObject.link;
+
+    return thisStream;
+}
+
+QDataStream& operator>>(QDataStream& thisStream, item& thisObject)
+{
+    thisStream >> thisObject.gameName >> thisObject.name >> thisObject.value >> thisObject.link;
+
+    return thisStream;
+}
+
 QDataStream& operator<<(QDataStream& thisStream, const options& thisObject)
 {
     thisStream << thisObject.windowName << thisObject.itemPerPage << thisObject.valueOfEuro << thisObject.isInEuro << thisObject.isInEnglish << thisObject.alwaysBeep

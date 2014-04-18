@@ -9,13 +9,6 @@
 #include "logsWindow.hpp"
 #include "smtpClient.hpp"
 
-struct item
-{
-    QString name;
-    QString value;
-    QString link;
-};
-
 class marketStalkerClass : public QWidget
 {
     Q_OBJECT
@@ -35,8 +28,9 @@ public slots:
     void thisGetEnd(getAPageClass* thisPage);
     void goToUrl(QTreeWidgetItem* thisItem);
     void showOption();
-    void showLogs();
     void showProfile();
+    void showBlacklist();
+    void showLogs();
     void updateOption(bool euroChange, bool emailIsActiveChange, bool smtpOrEmailToCoChange, bool englishChange);
     void errorDelete(getAPageClass *thisPage);
     void checkFocus(QWidget* old, QWidget* current);

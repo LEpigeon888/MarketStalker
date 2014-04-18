@@ -22,7 +22,7 @@ static const uint qt_meta_data_marketStalkerClass[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      17,   14, // methods
+      18,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -42,13 +42,14 @@ static const uint qt_meta_data_marketStalkerClass[] = {
      175,  166,   19,   19, 0x0a,
      201,   19,   19,   19, 0x0a,
      214,   19,   19,   19, 0x0a,
-     225,   19,   19,   19, 0x0a,
-     306,  239,   19,   19, 0x0a,
-     340,  130,   19,   19, 0x0a,
-     380,  368,   19,   19, 0x0a,
-     410,   19,   19,   19, 0x0a,
+     228,   19,   19,   19, 0x0a,
+     244,   19,   19,   19, 0x0a,
+     322,  255,   19,   19, 0x0a,
+     356,  130,   19,   19, 0x0a,
+     396,  384,   19,   19, 0x0a,
      426,   19,   19,   19, 0x0a,
-     454,  444,   19,   19, 0x0a,
+     442,   19,   19,   19, 0x0a,
+     470,  460,   19,   19, 0x0a,
 
        0        // eod
 };
@@ -60,7 +61,7 @@ static const char qt_meta_stringdata_marketStalkerClass[] = {
     "startGetPage()\0beginAllGet()\0thisPage\0"
     "thisGetEnd(getAPageClass*)\0thisItem\0"
     "goToUrl(QTreeWidgetItem*)\0showOption()\0"
-    "showLogs()\0showProfile()\0"
+    "showProfile()\0showBlacklist()\0showLogs()\0"
     "euroChange,emailIsActiveChange,smtpOrEmailToCoChange,englishChange\0"
     "updateOption(bool,bool,bool,bool)\0"
     "errorDelete(getAPageClass*)\0old,current\0"
@@ -84,14 +85,15 @@ void marketStalkerClass::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         case 6: _t->thisGetEnd((*reinterpret_cast< getAPageClass*(*)>(_a[1]))); break;
         case 7: _t->goToUrl((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1]))); break;
         case 8: _t->showOption(); break;
-        case 9: _t->showLogs(); break;
-        case 10: _t->showProfile(); break;
-        case 11: _t->updateOption((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4]))); break;
-        case 12: _t->errorDelete((*reinterpret_cast< getAPageClass*(*)>(_a[1]))); break;
-        case 13: _t->checkFocus((*reinterpret_cast< QWidget*(*)>(_a[1])),(*reinterpret_cast< QWidget*(*)>(_a[2]))); break;
-        case 14: _t->itsTimeToWarn(); break;
-        case 15: _t->updateAllOption(); break;
-        case 16: _t->creatContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 9: _t->showProfile(); break;
+        case 10: _t->showBlacklist(); break;
+        case 11: _t->showLogs(); break;
+        case 12: _t->updateOption((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4]))); break;
+        case 13: _t->errorDelete((*reinterpret_cast< getAPageClass*(*)>(_a[1]))); break;
+        case 14: _t->checkFocus((*reinterpret_cast< QWidget*(*)>(_a[1])),(*reinterpret_cast< QWidget*(*)>(_a[2]))); break;
+        case 15: _t->itsTimeToWarn(); break;
+        case 16: _t->updateAllOption(); break;
+        case 17: _t->creatContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -129,9 +131,9 @@ int marketStalkerClass::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 17)
+        if (_id < 18)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 18;
     }
     return _id;
 }

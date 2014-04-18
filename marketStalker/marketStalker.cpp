@@ -26,7 +26,7 @@ marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
     activeOption.maxValue = 10;
     activeOption.windowName = "Market Stalker v1.13s";
     activeOption.itemPerPage = 20;
-    activeOption.valueOfEuro = 0.723693733;
+    activeOption.valueOfEuro = 0.72374611;
     activeOption.isInEuro = false;
     boxIsInDollar = true;
     updateTime = false;
@@ -143,42 +143,46 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
     for(int i = 0; i < listOfLink.size(); ++i)
     {
         bool existBefore = false;
-        QList<QTreeWidgetItem*> itemResultList = listItemList.findItems(listOfName.at(i), Qt::MatchExactly, 1);
-        QMutableListIterator<QTreeWidgetItem*> iteratorList(itemResultList);
-        while(iteratorList.hasNext())
+
+        if(existBefore == false)
         {
-            QTreeWidgetItem* tmpItem = iteratorList.next();
-            if(tmpItem->text(COLUMN_GAME_NAME) == listOfGameName.at(i))
+            QList<QTreeWidgetItem*> itemResultList = listItemList.findItems(listOfName.at(i), Qt::MatchExactly, 1);
+            QMutableListIterator<QTreeWidgetItem*> iteratorList(itemResultList);
+            while(iteratorList.hasNext())
             {
-                existBefore = true;
-                tmpItem->setText(COLUMN_ITEM_VALUE_DOLLAR, listOfValue.at(i));
-                if(activeOption.isInEuro == false)
+                QTreeWidgetItem* tmpItem = iteratorList.next();
+                if(tmpItem->text(COLUMN_GAME_NAME) == listOfGameName.at(i))
                 {
-                    tmpItem->setText(COLUMN_ITEM_VALUE, listOfValue.at(i));
-                }
-                else
-                {
-                    tmpItem->setText(COLUMN_ITEM_VALUE, QString::number(listOfValue.at(i).toDouble() * activeOption.valueOfEuro));
-                }
-                if(tmpItem->text(COLUMN_ITEM_VALUE).toDouble() >= activeOption.minValue && tmpItem->text(COLUMN_ITEM_VALUE).toDouble() <= activeOption.maxValue)
-                {
-                    tmpItem->setText(COLUMN_ITEM_DATE, QTime::currentTime().toString("HH:mm:ss"));
-                    listItemFound.addTopLevelItem(listItemList.takeTopLevelItem(listItemList.indexOfTopLevelItem(tmpItem)));
-                    labNbItemFound.setText(QString::number(listItemFound.topLevelItemCount()));
-                    labNbItemList.setText(QString::number(listItemList.topLevelItemCount()));
-                    warnForValue();
-
-                    if(activeOption.emailInfo.isActive == true)
+                    existBefore = true;
+                    tmpItem->setText(COLUMN_ITEM_VALUE_DOLLAR, listOfValue.at(i));
+                    if(activeOption.isInEuro == false)
                     {
-                        item newItemForSend;
-                        newItemForSend.name = tmpItem->text(COLUMN_ITEM_NAME);
-                        newItemForSend.value = tmpItem->text(COLUMN_ITEM_VALUE_DOLLAR);
-                        newItemForSend.link = QUrl::fromPercentEncoding(tmpItem->text(COLUMN_ITEM_LINK).replace("\\/", "/").toUtf8());;
-
-                        listOfItemInRange.append(newItemForSend);
+                        tmpItem->setText(COLUMN_ITEM_VALUE, listOfValue.at(i));
                     }
+                    else
+                    {
+                        tmpItem->setText(COLUMN_ITEM_VALUE, QString::number(listOfValue.at(i).toDouble() * activeOption.valueOfEuro));
+                    }
+                    if(tmpItem->text(COLUMN_ITEM_VALUE).toDouble() >= activeOption.minValue && tmpItem->text(COLUMN_ITEM_VALUE).toDouble() <= activeOption.maxValue)
+                    {
+                        tmpItem->setText(COLUMN_ITEM_DATE, QTime::currentTime().toString("HH:mm:ss"));
+                        listItemFound.addTopLevelItem(listItemList.takeTopLevelItem(listItemList.indexOfTopLevelItem(tmpItem)));
+                        labNbItemFound.setText(QString::number(listItemFound.topLevelItemCount()));
+                        labNbItemList.setText(QString::number(listItemList.topLevelItemCount()));
+                        warnForValue();
+
+                        if(activeOption.emailInfo.isActive == true)
+                        {
+                            item newItemForSend;
+                            newItemForSend.name = tmpItem->text(COLUMN_ITEM_NAME);
+                            newItemForSend.value = tmpItem->text(COLUMN_ITEM_VALUE_DOLLAR);
+                            newItemForSend.link = QUrl::fromPercentEncoding(tmpItem->text(COLUMN_ITEM_LINK).replace("\\/", "/").toUtf8());;
+
+                            listOfItemInRange.append(newItemForSend);
+                        }
+                    }
+                    break;
                 }
-                break;
             }
         }
 
@@ -223,6 +227,21 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
                             listOfItemInRange.append(newItemForSend);
                         }
                     }
+                    break;
+                }
+            }
+        }
+
+        if(existBefore == false)
+        {
+            QMutableListIterator<item> iteratorBlacklist(activeOption.listOfItemBlacklisted);
+            while(iteratorBlacklist.hasNext())
+            {
+                item thisItem = iteratorBlacklist.next();
+                QString tmpLink = listOfLink.at(i);
+                if(thisItem.link == tmpLink.replace("\\/", "/"))
+                {
+                    existBefore = true;
                     break;
                 }
             }
@@ -441,18 +460,23 @@ void marketStalkerClass::showOption()
     mySettingWindow->exec();
 }
 
-void marketStalkerClass::showLogs()
-{
-    logsWindowClass* myLogsWindow = new logsWindowClass(this, &logsInfo);
-    connect(this, SIGNAL(logsChanged()), myLogsWindow, SLOT(valueNeedUpdate()));
-    myLogsWindow->exec();
-}
-
 void marketStalkerClass::showProfile()
 {
     profileWindowClass* myProfileWindow = new profileWindowClass(this, &activeOption, &profileUsed);
     connect(myProfileWindow, SIGNAL(allChanged()), this, SLOT(updateAllOption()));
     myProfileWindow->exec();
+}
+
+void marketStalkerClass::showBlacklist()
+{
+
+}
+
+void marketStalkerClass::showLogs()
+{
+    logsWindowClass* myLogsWindow = new logsWindowClass(this, &logsInfo);
+    connect(this, SIGNAL(logsChanged()), myLogsWindow, SLOT(valueNeedUpdate()));
+    myLogsWindow->exec();
 }
 
 void marketStalkerClass::updateOption(bool euroChange, bool emailIsActiveChange, bool smtpOrEmailToCoChange, bool englishChange)
@@ -608,7 +632,13 @@ void marketStalkerClass::creatContextMenu(const QPoint& thisPoint)
 
             if(actionSelected == actionBlackList)
             {
-                /*activeOption.listOfItemBlacklisted.append(treeHasFocus->takeTopLevelItem(treeHasFocus->indexOfTopLevelItem(itemSelected)));
+                QTreeWidgetItem* tmpTreeItem = treeHasFocus->takeTopLevelItem(treeHasFocus->indexOfTopLevelItem(itemSelected));
+                item newItem;
+                newItem.gameName = tmpTreeItem->text(COLUMN_GAME_NAME);
+                newItem.name = tmpTreeItem->text(COLUMN_ITEM_NAME);
+                newItem.value = tmpTreeItem->text(COLUMN_ITEM_VALUE_DOLLAR);
+                newItem.link = tmpTreeItem->text(COLUMN_ITEM_LINK).replace("\\/", "/");
+                activeOption.listOfItemBlacklisted.append(newItem);
                 if(treeHasFocus == &listItemFound)
                 {
                     labNbItemFound.setText(QString::number(listItemFound.topLevelItemCount()));
@@ -617,7 +647,8 @@ void marketStalkerClass::creatContextMenu(const QPoint& thisPoint)
                 {
                     labNbItemList.setText(QString::number(listItemList.topLevelItemCount()));
                 }
-                labNbItemTotal.setText(QString("Total : ") + QString::number(labNbItemFound.text().toInt() + labNbItemList.text().toInt()));*/
+                labNbItemTotal.setText(QString("Total : ") + QString::number(labNbItemFound.text().toInt() + labNbItemList.text().toInt()));
+                delete tmpTreeItem;
             }
         }
     }

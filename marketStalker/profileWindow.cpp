@@ -5,6 +5,8 @@ profileWindowClass::profileWindowClass(QWidget* parent, options* newOptions, QSt
     setAttribute(Qt::WA_DeleteOnClose);
     qRegisterMetaTypeStreamOperators<emailInformation>("emailInformation");
     qMetaTypeId<emailInformation>();
+    qRegisterMetaTypeStreamOperators<item>("item");
+    qMetaTypeId<item>();
     qRegisterMetaTypeStreamOperators<options>("options");
     qMetaTypeId<options>();
 
