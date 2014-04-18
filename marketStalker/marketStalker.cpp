@@ -21,10 +21,10 @@ marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
     horizontalHeader.append("Prix");
     horizontalHeader.append("Date");
 
-    timeRefresh = 10;
-    minValue = 0;
-    maxValue = 10;
-    activeOption.windowName = "Market Stalker v1.12";
+    activeOption.timeRefresh = 10;
+    activeOption.minValue = 0;
+    activeOption.maxValue = 10;
+    activeOption.windowName = "Market Stalker v1.13s";
     activeOption.itemPerPage = 20;
     activeOption.valueOfEuro = 0.723693733;
     activeOption.isInEuro = false;
@@ -46,19 +46,19 @@ marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
     logsInfo.authToSmtp = false;
     logsInfo.sendMailSucces = false;
     firstPageGet.manuallyDelete(false);
-    boxTimeRefresh.setValue(timeRefresh);
+    boxTimeRefresh.setValue(activeOption.timeRefresh);
     boxTimeRefresh.setMinimum(0);
-    boxMinValue.setValue(minValue);
+    boxMinValue.setValue(activeOption.minValue);
     boxMinValue.setMinimum(0);
     boxMinValue.setMaximum(9999);
-    boxMaxValue.setValue(maxValue);
+    boxMaxValue.setValue(activeOption.maxValue);
     boxMaxValue.setMinimum(0);
     boxMaxValue.setMaximum(9999);
     labStatuOfUpdate.setText("Rien");
     labNbItemFound.setText("0");
     labNbItemList.setText("0");
     labNbItemTotal.setText("Total : 0");
-    timerForGetPage.setInterval(timeRefresh * 1000);
+    timerForGetPage.setInterval(activeOption.timeRefresh * 1000);
     timerForGetPage.start();
 
     listItemFound.setSortingEnabled(true);
@@ -160,7 +160,7 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
                 {
                     tmpItem->setText(COLUMN_ITEM_VALUE, QString::number(listOfValue.at(i).toDouble() * activeOption.valueOfEuro));
                 }
-                if(tmpItem->text(COLUMN_ITEM_VALUE).toDouble() >= minValue && tmpItem->text(COLUMN_ITEM_VALUE).toDouble() <= maxValue)
+                if(tmpItem->text(COLUMN_ITEM_VALUE).toDouble() >= activeOption.minValue && tmpItem->text(COLUMN_ITEM_VALUE).toDouble() <= activeOption.maxValue)
                 {
                     tmpItem->setText(COLUMN_ITEM_DATE, QTime::currentTime().toString("HH:mm:ss"));
                     listItemFound.addTopLevelItem(listItemList.takeTopLevelItem(listItemList.indexOfTopLevelItem(tmpItem)));
@@ -202,7 +202,7 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
                     {
                         tmpItem->setText(COLUMN_ITEM_VALUE, QString::number(listOfValue.at(i).toDouble() * activeOption.valueOfEuro));
                     }
-                    if(tmpItem->text(COLUMN_ITEM_VALUE).toDouble() < minValue || tmpItem->text(COLUMN_ITEM_VALUE).toDouble() > maxValue)
+                    if(tmpItem->text(COLUMN_ITEM_VALUE).toDouble() < activeOption.minValue || tmpItem->text(COLUMN_ITEM_VALUE).toDouble() > activeOption.maxValue)
                     {
                         listItemList.addTopLevelItem(listItemFound.takeTopLevelItem(listItemFound.indexOfTopLevelItem(tmpItem)));
                         labNbItemFound.setText(QString::number(listItemFound.topLevelItemCount()));
@@ -246,7 +246,7 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
                 newItem->setText(COLUMN_ITEM_VALUE, QString::number(listOfValue.at(i).toDouble() * activeOption.valueOfEuro));
             }
 
-            if(newItem->text(COLUMN_ITEM_VALUE).toDouble() >= minValue && newItem->text(COLUMN_ITEM_VALUE).toDouble() <= maxValue)
+            if(newItem->text(COLUMN_ITEM_VALUE).toDouble() >= activeOption.minValue && newItem->text(COLUMN_ITEM_VALUE).toDouble() <= activeOption.maxValue)
             {
                 listItemFound.addTopLevelItem(newItem);
                 labNbItemFound.setText(QString::number(listItemFound.topLevelItemCount()));
@@ -361,15 +361,15 @@ void marketStalkerClass::checkPageEndUse()
 void marketStalkerClass::updateValue()
 {
     listOfPageGet.clear();
-    minValue = boxMinValue.value();
-    maxValue = boxMaxValue.value();
-    timeRefresh = boxTimeRefresh.value();
+    activeOption.minValue = boxMinValue.value();
+    activeOption.maxValue = boxMaxValue.value();
+    activeOption.timeRefresh = boxTimeRefresh.value();
     listItemFound.clear();
     listItemList.clear();
     labNbItemFound.setText("0");
     labNbItemList.setText("0");
     labNbItemTotal.setText("Total : 0");
-    timerForGetPage.setInterval(timeRefresh * 1000);
+    timerForGetPage.setInterval(activeOption.timeRefresh * 1000);
     timerForGetPage.start();
     stringSearch = lineStringSearch.text();
     startGetPage();
@@ -511,8 +511,8 @@ void marketStalkerClass::updateOption(bool euroChange, bool emailIsActiveChange,
             }
         }
 
-        minValue = boxMinValue.value();
-        maxValue = boxMaxValue.value();
+        activeOption.minValue = boxMinValue.value();
+        activeOption.maxValue = boxMaxValue.value();
     }
     if(emailIsActiveChange == true || smtpOrEmailToCoChange == true)
     {
@@ -578,6 +578,9 @@ void marketStalkerClass::itsTimeToWarn()
 
 void marketStalkerClass::updateAllOption()
 {
+    boxMinValue.setValue(activeOption.minValue);
+    boxMaxValue.setValue(activeOption.maxValue);
+    boxTimeRefresh.setValue(activeOption.timeRefresh);
     updateOption(true, true, true, true);
 }
 
@@ -605,7 +608,7 @@ void marketStalkerClass::creatContextMenu(const QPoint& thisPoint)
 
             if(actionSelected == actionBlackList)
             {
-                /*listOfItemBlacklisted.append(QSharedPointer<QTreeWidgetItem>(treeHasFocus->takeTopLevelItem(treeHasFocus->indexOfTopLevelItem(itemSelected))));
+                /*activeOption.listOfItemBlacklisted.append(treeHasFocus->takeTopLevelItem(treeHasFocus->indexOfTopLevelItem(itemSelected)));
                 if(treeHasFocus == &listItemFound)
                 {
                     labNbItemFound.setText(QString::number(listItemFound.topLevelItemCount()));

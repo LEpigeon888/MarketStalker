@@ -4,7 +4,7 @@
 #include <QtGui>
 #include <QtCore>
 
-#include "settingWindow.hpp"
+#include "options.hpp"
 
 class profileWindowClass : public QDialog
 {
@@ -12,7 +12,7 @@ class profileWindowClass : public QDialog
 public:
     profileWindowClass(QWidget* parent, options* newOptions, QString* newProfileUsed);
 public slots:
-    void editProfile();
+    void saveProfile();
     void addNewProfile();
     void deleteProfile();
     void selectProfile();

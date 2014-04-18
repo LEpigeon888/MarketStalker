@@ -8,6 +8,7 @@ INPUT(
 ./debug\mainWindow.o
 ./debug\logsWindow.o
 ./debug\profileWindow.o
+./debug\options.o
 ./debug\moc_marketStalker.o
 ./debug\moc_getAPage.o
 ./debug\moc_settingWindow.o

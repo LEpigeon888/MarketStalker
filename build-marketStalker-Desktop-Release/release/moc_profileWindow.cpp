@@ -43,7 +43,7 @@ static const uint qt_meta_data_profileWindowClass[] = {
 
 static const char qt_meta_stringdata_profileWindowClass[] = {
     "profileWindowClass\0\0allChanged()\0"
-    "editProfile()\0addNewProfile()\0"
+    "saveProfile()\0addNewProfile()\0"
     "deleteProfile()\0selectProfile()\0"
 };
 
@@ -54,7 +54,7 @@ void profileWindowClass::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         profileWindowClass *_t = static_cast<profileWindowClass *>(_o);
         switch (_id) {
         case 0: _t->allChanged(); break;
-        case 1: _t->editProfile(); break;
+        case 1: _t->saveProfile(); break;
         case 2: _t->addNewProfile(); break;
         case 3: _t->deleteProfile(); break;
         case 4: _t->selectProfile(); break;

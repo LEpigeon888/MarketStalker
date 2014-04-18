@@ -55,10 +55,7 @@ private:
     QStandardItemModel modelItemList;
     QTreeWidget listItemFound;
     QTreeWidget listItemList;
-    double minValue;
-    double maxValue;
     bool boxIsInDollar;
-    int timeRefresh;
     QString stringSearch;
     QTimer timerForGetPage;
     getAPageClass firstPageGet;
@@ -77,7 +74,6 @@ private:
     QList<item> listOfItemInRange;
     QString aditionalOptions;
     QString profileUsed;
-    QList< QSharedPointer<QTreeWidgetItem> > listOfItemBlacklisted;
 };
 
 #endif

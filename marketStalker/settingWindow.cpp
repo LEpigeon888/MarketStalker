@@ -142,31 +142,3 @@ void settingWindowClass::rejectOption()
 {
     this->close();
 }
-
-QDataStream& operator<<(QDataStream& thisStream, const emailInformation& thisObject)
-{
-    thisStream << thisObject.isActive << thisObject.emailTo << thisObject.emailWith << thisObject.mdpWith << thisObject.smtpServ << thisObject.smtpPort;
-
-    return thisStream;
-}
-
-QDataStream& operator>>(QDataStream& thisStream, emailInformation& thisObject)
-{
-    thisStream >> thisObject.isActive >> thisObject.emailTo >> thisObject.emailWith >> thisObject.mdpWith >> thisObject.smtpServ >> thisObject.smtpPort;
-
-    return thisStream;
-}
-
-QDataStream& operator<<(QDataStream& thisStream, const options& thisObject)
-{
-    thisStream << thisObject.windowName << thisObject.itemPerPage << thisObject.valueOfEuro << thisObject.isInEuro << thisObject.isInEnglish << thisObject.alwaysBeep << thisObject.emailInfo;
-
-    return thisStream;
-}
-
-QDataStream& operator>>(QDataStream& thisStream, options& thisObject)
-{
-    thisStream >> thisObject.windowName >> thisObject.itemPerPage >> thisObject.valueOfEuro >> thisObject.isInEuro >> thisObject.isInEnglish >> thisObject.alwaysBeep >> thisObject.emailInfo;
-
-    return thisStream;
-}

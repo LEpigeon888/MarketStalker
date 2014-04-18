@@ -7,7 +7,8 @@ SOURCES += \
     smptClient.cpp \
     mainWindow.cpp \
     logsWindow.cpp \
-    profileWindow.cpp
+    profileWindow.cpp \
+    options.cpp
 
 HEADERS += \
     marketStalker.hpp \
@@ -17,7 +18,8 @@ HEADERS += \
     smtpClient.hpp \
     mainWindow.hpp \
     logsWindow.hpp \
-    profileWindow.hpp
+    profileWindow.hpp \
+    options.hpp
 
 QT += \
     network

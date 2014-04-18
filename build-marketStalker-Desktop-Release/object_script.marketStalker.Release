@@ -8,6 +8,7 @@ INPUT(
 ./release\mainWindow.o
 ./release\logsWindow.o
 ./release\profileWindow.o
+./release\options.o
 ./release\moc_marketStalker.o
 ./release\moc_getAPage.o
 ./release\moc_settingWindow.o

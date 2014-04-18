@@ -9,7 +9,7 @@ profileWindowClass::profileWindowClass(QWidget* parent, options* newOptions, QSt
     qMetaTypeId<options>();
 
     QLabel* labListOfProfile = new QLabel("Profil : ", this);
-    QPushButton* buttonEdit = new QPushButton("Editer", this);
+    QPushButton* buttonSave = new QPushButton("Sauvegarder", this);
     QPushButton* buttonAdd = new QPushButton("Ajouter", this);
     QPushButton* buttonDel = new QPushButton("Supprimer", this);
     QPushButton* buttonSelect = new QPushButton("Sélectionner", this);
@@ -17,7 +17,7 @@ profileWindowClass::profileWindowClass(QWidget* parent, options* newOptions, QSt
     currentOptions = newOptions;
     profileUsed = newProfileUsed;
     listOfProfile.addItems(setting.allKeys());
-    buttonEdit->setAutoDefault(false);
+    buttonSave->setAutoDefault(false);
     buttonAdd->setAutoDefault(false);
     buttonDel->setAutoDefault(false);
     buttonSelect->setAutoDefault(true);
@@ -29,10 +29,13 @@ profileWindowClass::profileWindowClass(QWidget* parent, options* newOptions, QSt
     }
     listOfProfile.setCurrentIndex(listOfProfile.findText(*profileUsed));
 
+    QHBoxLayout* layoutSelectProfile = new QHBoxLayout;
+    layoutSelectProfile->addWidget(labListOfProfile);
+    layoutSelectProfile->addWidget(&listOfProfile);
+
     QGridLayout* mainLayout = new QGridLayout(this);
-    mainLayout->addWidget(labListOfProfile, 0, 0);
-    mainLayout->addWidget(&listOfProfile, 0, 1, 1, 2);
-    mainLayout->addWidget(buttonEdit, 1, 0);
+    mainLayout->addLayout(layoutSelectProfile, 0, 0, 1, 3);
+    mainLayout->addWidget(buttonSave, 1, 0);
     mainLayout->addWidget(buttonAdd, 1, 1);
     mainLayout->addWidget(buttonDel, 1, 2);
     mainLayout->addWidget(buttonSelect, 2, 0, 1, 3);
@@ -40,24 +43,15 @@ profileWindowClass::profileWindowClass(QWidget* parent, options* newOptions, QSt
     setLayout(mainLayout);
     setWindowTitle("Profils");
 
-    connect(buttonEdit, SIGNAL(pressed()), this, SLOT(editProfile()));
+    connect(buttonSave, SIGNAL(pressed()), this, SLOT(saveProfile()));
     connect(buttonAdd, SIGNAL(pressed()), this, SLOT(addNewProfile()));
     connect(buttonDel, SIGNAL(pressed()), this, SLOT(deleteProfile()));
     connect(buttonSelect, SIGNAL(pressed()), this, SLOT(selectProfile()));
 }
 
-void profileWindowClass::editProfile()
+void profileWindowClass::saveProfile()
 {
-    if(listOfProfile.currentText().isEmpty() == false)
-    {
-        QVariant editThisValue = setting.value(listOfProfile.currentText());
-        options tmpOptions = editThisValue.value<options>();
-        settingWindowClass* mySettingWindow = new settingWindowClass(this, &tmpOptions);
-
-        mySettingWindow->exec();
-        editThisValue.setValue(tmpOptions);
-        setting.setValue(listOfProfile.currentText(), editThisValue);
-    }
+    setting.setValue(listOfProfile.currentText(), qVariantFromValue(*currentOptions));
 }
 
 void profileWindowClass::addNewProfile()
@@ -65,7 +59,7 @@ void profileWindowClass::addNewProfile()
     bool ok = false;
     QString newProfile = QInputDialog::getText(this, "Profil", "Nom du nouveau profil : ", QLineEdit::Normal, QString(), &ok, Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
 
-    if (ok == true && newProfile.isEmpty() == false)
+    if (ok == true && newProfile.isEmpty() == false && listOfProfile.findText(newProfile) == -1)
     {
         listOfProfile.addItem(newProfile);
         setting.setValue(newProfile, QVariant());
@@ -87,7 +81,6 @@ void profileWindowClass::selectProfile()
 {
     *profileUsed = listOfProfile.currentText();
     *currentOptions = qVariantValue<options>(setting.value(*profileUsed));
-
     emit allChanged();
 
     close();
