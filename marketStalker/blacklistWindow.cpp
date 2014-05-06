@@ -52,7 +52,28 @@ blacklistWindowClass::blacklistWindowClass(QWidget* parent, options* newOptions)
 
 void blacklistWindowClass::goToUrl(QTreeWidgetItem* thisItem)
 {
-    QDesktopServices::openUrl(QUrl(QUrl::fromPercentEncoding(thisItem->text(COLUMN_ITEM_LINK).replace("\\/", "/").toUtf8())));
+    QString linkToGo = QUrl::fromPercentEncoding(thisItem->text(COLUMN_ITEM_LINK).replace("\\/", "/").toUtf8());
+    int indexForString = linkToGo.indexOf('\\');
+    int secIndexForString = linkToGo.indexOf('\"');
+
+    if(indexForString != -1 || secIndexForString != -1)
+    {
+        if(indexForString != -1)
+        {
+            if(indexForString > secIndexForString)
+            {
+                indexForString = secIndexForString;
+            }
+        }
+        else
+        {
+            indexForString = secIndexForString;
+        }
+
+        linkToGo = linkToGo.left(indexForString);
+    }
+
+    QDesktopServices::openUrl(QUrl(linkToGo));
 }
 
 void blacklistWindowClass::creatContextMenu(const QPoint &thisPoint)

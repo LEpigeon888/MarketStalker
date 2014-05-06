@@ -25,7 +25,7 @@ marketStalkerClass::marketStalkerClass(QWidget* parent) : QWidget(parent)
     activeOption.timeRefresh = 10;
     activeOption.minValue = 0;
     activeOption.maxValue = 10;
-    activeOption.windowName = "Market Stalker v1.13.1";
+    activeOption.windowName = "Market Stalker v1.13.2";
     activeOption.itemPerPage = 20;
     activeOption.valueOfEuro = 0.723798494;
     activeOption.isInEuro = false;
@@ -240,7 +240,16 @@ void marketStalkerClass::setNewItem(QString fromThisSource, bool isFirstPass)
             {
                 item thisItem = iteratorBlacklist.next();
                 QString tmpLink = listOfLink.at(i);
-                if(thisItem.link == tmpLink.replace("\\/", "/"))
+                int indexOfString;
+                tmpLink.replace("\\/", "/");
+                indexOfString = tmpLink.indexOf('?');
+
+                if(indexOfString != -1)
+                {
+                    tmpLink = tmpLink.left(indexOfString);
+                }
+
+                if(thisItem.link == tmpLink)
                 {
                     existBefore = true;
                     thisItem.value = listOfValue.at(i);
@@ -317,6 +326,7 @@ QString marketStalkerClass::removeUnicodeFromString(QString thisString)
     while((pos = exp.indexIn(thisString, pos)) != -1)
     {
         thisString.replace(pos, exp.matchedLength(), QChar(QString("0x" + exp.cap(1)).toUInt(0, 16))).replace(QString("\\u00e8"), QString("\u00e8")).replace(QString("\\u00e9"), QString("\u00e9"));
+
         pos += exp.matchedLength();
     }
 
@@ -452,7 +462,28 @@ void marketStalkerClass::thisGetEnd(getAPageClass* thisPage)
 
 void marketStalkerClass::goToUrl(QTreeWidgetItem* thisItem)
 {
-    QDesktopServices::openUrl(QUrl(QUrl::fromPercentEncoding(thisItem->text(COLUMN_ITEM_LINK).replace("\\/", "/").toUtf8())));
+    QString linkToGo = QUrl::fromPercentEncoding(thisItem->text(COLUMN_ITEM_LINK).replace("\\/", "/").toUtf8());
+    int indexForString = linkToGo.indexOf('\\');
+    int secIndexForString = linkToGo.indexOf('\"');
+
+    if(indexForString != -1 || secIndexForString != -1)
+    {
+        if(indexForString != -1)
+        {
+            if(indexForString > secIndexForString)
+            {
+                indexForString = secIndexForString;
+            }
+        }
+        else
+        {
+            indexForString = secIndexForString;
+        }
+
+        linkToGo = linkToGo.left(indexForString);
+    }
+
+    QDesktopServices::openUrl(QUrl(linkToGo));
 }
 
 void marketStalkerClass::showOption()
@@ -638,11 +669,21 @@ void marketStalkerClass::creatContextMenu(const QPoint& thisPoint)
             {
                 QTreeWidgetItem* tmpTreeItem = treeHasFocus->takeTopLevelItem(treeHasFocus->indexOfTopLevelItem(itemSelected));
                 item newItem;
+                int indexOfString;
+
                 newItem.gameName = tmpTreeItem->text(COLUMN_GAME_NAME);
                 newItem.name = tmpTreeItem->text(COLUMN_ITEM_NAME);
                 newItem.value = tmpTreeItem->text(COLUMN_ITEM_VALUE_DOLLAR);
                 newItem.link = tmpTreeItem->text(COLUMN_ITEM_LINK).replace("\\/", "/");
+                indexOfString = newItem.link.indexOf('?');
+
+                if(indexOfString != -1)
+                {
+                    newItem.link = newItem.link.left(indexOfString);
+                }
+
                 activeOption.listOfItemBlacklisted.append(newItem);
+
                 if(treeHasFocus == &listItemFound)
                 {
                     labNbItemFound.setText(QString::number(listItemFound.topLevelItemCount()));
@@ -651,6 +692,7 @@ void marketStalkerClass::creatContextMenu(const QPoint& thisPoint)
                 {
                     labNbItemList.setText(QString::number(listItemList.topLevelItemCount()));
                 }
+
                 labNbItemTotal.setText(QString("Total : ") + QString::number(labNbItemFound.text().toInt() + labNbItemList.text().toInt()));
                 delete tmpTreeItem;
             }
